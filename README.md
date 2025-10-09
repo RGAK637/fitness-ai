@@ -91,3 +91,41 @@ MCA Final Year Project, SRM University
 ## 📜 License
 This project is for **academic and learning purposes only**.  
 All trademarks and technologies belong to their respective owners.
+
+
+---
+
+## 🧩 Project Progress Update (as of October 10, 2025)
+
+### ✅ Completed
+- **User Service Microservice**
+  - Implemented user registration, authentication, and profile management.
+  - Integrated **PostgreSQL** for persistent data storage.
+  - Secured endpoints using **Keycloak** authentication.
+  - Successfully tested all endpoints.
+
+- **Activity Service Microservice**
+  - Developed RESTful APIs for logging, updating, and fetching user fitness activities.
+  - Integrated **MongoDB** for flexible activity data storage.
+  - Connected with **User Service** via REST calls and **RabbitMQ** for asynchronous event handling.
+  - Completed **inter-service communication testing** using **Eureka Service Registry**.
+
+- **Project Documentation**
+  - Completed detailed sections:
+    - *Introduction*  
+    - *Analysis & Requirement*  
+    - *Problem Description / Modules Description*
+  - Ready for inclusion in First/Second Review submission.
+
+### 🔄 In Progress
+- **AI Service Microservice**
+  - Building service to process activity data and generate personalized recommendations.
+  - Integrating with **Google Gemini API** for AI-driven analysis.
+
+### 🧠 Next Steps
+- Complete **AI Service** implementation and connect with Activity Service.
+- Prepare **System Architecture Diagram** for documentation.
+- Begin **Docker containerization** for all microservices.
+- Develop **React Frontend** for user dashboard and AI recommendations.
+
+📌 *Next milestone:* Deploy all services locally with Docker and connect frontend to backend microservices.
