@@ -50,8 +50,8 @@ It integrates **AI**, **containerization**, and **secure authentication** to pro
 | Service | Description | Status |
 |----------|--------------|--------|
 | **User Service** | Handles user registration, authentication, and profile management | ✅ Completed |
-| **Activity Service** | Manages fitness activity data and logs | 🔄 In Progress |
-| **AI Service** | Generates personalized recommendations using Google Gemini API | ⏳ Planned |
+| **Activity Service** | Manages fitness activity data and logs | ✅ Completed |
+| **AI Service** | Generates personalized recommendations using Google Gemini API | 🔄 In Progress |
 
 ---
 
