@@ -22,7 +22,6 @@ public class UserValidationService {
                     .uri("/api/users/{userId}/validate", userId)
                     .retrieve()
                     .bodyToMono(Boolean.class)
-
                     .block());
         } catch (WebClientResponseException e){
             if (e.getStatusCode() == HttpStatus.NOT_FOUND)

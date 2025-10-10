@@ -92,6 +92,46 @@ MCA Final Year Project, SRM University
 This project is for **academic and learning purposes only**.  
 All trademarks and technologies belong to their respective owners.
 
+---
+
+## 🧩 Project Progress Update (as of October 11, 2025)
+
+### ✅ Completed
+- **AI Service Microservice**
+    - Created new **AI-Service** (Spring Boot + MongoDB + Eureka Client).
+    - Configured **RabbitMQ** integration with custom `exchange`, `queue`, and `routingKey`.
+    - Implemented `RabbitMqConfig` and `@RabbitListener` to consume activity messages.
+    - Verified successful **end-to-end asynchronous communication**:  
+      **User → Activity → RabbitMQ → AI-Service**.
+    - Fixed Eureka IP resolution issues using `prefer-ip-address: true`.
+    - Confirmed service registration in **Eureka Server** and live message flow in **RabbitMQ UI**.
+    - Connected **MongoDB (`fitnessrecommendation`)** and verified data persistence.
+
+- **Activity Service Enhancements**
+    - Integrated `RabbitTemplate` for publishing activity data asynchronously.
+    - Configured exchange and routing properties via `application.yml`.
+    - Added `Jackson2JsonMessageConverter` in `RabbitMqConfig`.
+    - Verified message publishing to RabbitMQ on new activity events.
+
+- **Eureka & Interservice Communication**
+    - Completed **Eureka Service Discovery** setup for all microservices.
+    - Fixed DNS/NXDOMAIN issue and validated service registration using localhost IPs.
+    - Ensured seamless communication among **User Service**, **Activity Service**, and **AI Service**.
+
+### 🔄 In Progress
+- **AI Service Recommendation Logic**
+    - Implementing logic to store and analyze activity data for personalized recommendations.
+    - Adding persistence with `RecommendationRepository.save()` and idempotency via `existsByActivityId`.
+    - Planning retry and DLQ (Dead Letter Queue) handling for message processing.
+
+### 🧠 Next Steps
+- Complete **AI recommendation generation and persistence layer**.
+- Add observability using **Micrometer / OpenTelemetry** for message flow tracking.
+- Begin **Docker containerization** for all microservices.
+- Prepare **System Architecture Diagram** and update documentation.
+- Develop **React Frontend** for user activity visualization and AI recommendations.
+
+📌 *Next milestone:* Full AI-driven recommendation workflow with persistence and analytics integration.
 
 ---
 
