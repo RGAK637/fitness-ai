@@ -1,25 +1,5 @@
-server:
-  port: 8081
-
 spring:
   application:
     name: user-service
-  datasource:
-    url: jdbc:postgresql://localhost:5432/fitness_user_db
-    username: postgres
-    password: 2002
-  jpa:
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-
-# Eureka must be top-level, not inside `spring:`
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-  instance:
-    prefer-ip-address: true
-    ip-address: 127.0.0.1     # optional for local dev
-    hostname: localhost      # optional readable name
-    instance-id: ${spring.application.name}:${server.port}
+  config:
+    import: optional:configserver:http://localhost:8888
