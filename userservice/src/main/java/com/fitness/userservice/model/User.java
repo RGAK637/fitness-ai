@@ -20,6 +20,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    private String keycloakId;
+
     @Column(nullable = false)
     private String password;
     private String firstName;
