@@ -49,9 +49,12 @@ It integrates **AI**, **containerization**, and **secure authentication** to pro
 
 | Service | Description | Status |
 |----------|--------------|--------|
-| **User Service** | Handles user registration, authentication, and profile management | ✅ Completed |
-| **Activity Service** | Manages fitness activity data and logs | ✅ Completed |
-| **AI Service** | Generates personalized recommendations using Google Gemini API | 🔄 In Progress |
+| **Eureka Server** | Service discovery and registry for all microservices | ✅ Completed |
+| **Config Server** | Centralized configuration management for all services | ✅ Completed |
+| **API Gateway** | Single entry point with OAuth2 JWT authentication and routing | ✅ Completed |
+| **User Service** | Handles user registration, profile management, and Keycloak sync | ✅ Completed |
+| **Activity Service** | Manages fitness activity data with RabbitMQ event publishing | ✅ Completed |
+| **AI Service** | Generates personalized recommendations using Google Gemini API | ✅ Completed |
 
 ---
 
@@ -94,6 +97,59 @@ All trademarks and technologies belong to their respective owners.
 
 ---
 
+## 🧩 Project Progress Update (as of November 29, 2025)
+
+### ✅ Completed
+- **Keycloak Security Integration**
+    - Integrated **Keycloak OAuth2 authentication** with API Gateway.
+    - Implemented **JWT token validation** using Spring Security OAuth2 Resource Server.
+    - Configured JWK endpoint: `http://localhost:8181/realms/fitness-oauth2/protocol/openid-connect/certs`.
+    - Added Spring Security dependencies: `spring-boot-starter-security`, `spring-boot-starter-oauth2-client`, `spring-boot-starter-oauth2-resource-server`.
+    - Created `SecurityConfig.java` with WebFlux security configuration.
+    - All endpoints now require JWT authentication (except `/actuator/*`).
+
+- **API Gateway - Automatic User Synchronization**
+    - Implemented `KeyclockUserSyncFilter.java` for seamless Keycloak-to-UserService auto-sync.
+    - Filter automatically:
+        - Parses JWT claims (email, given_name, family_name, sub/keycloakId).
+        - Validates user existence via `keycloakId` lookup in User Service.
+        - Auto-registers missing users in PostgreSQL database.
+        - Injects `X-User-ID` header for downstream service consumption.
+    - Added reactive `WebClient` with Eureka service discovery for load-balanced User Service calls.
+    - Created DTOs: `RegisterRequest.java`, `UserResponse.java` for Gateway-UserService communication.
+
+- **User Service Enhancements**
+    - Added `keycloakId` field to `User.java` entity for external identity mapping.
+    - Implemented `existsByKeycloakId()` method in `UserRepository.java`.
+    - Updated `UserService.register()` to handle Keycloak-initiated registrations.
+    - Dual ID system: `keycloakId` (external auth) + `id` (internal UUID).
+
+- **API Gateway Configuration**
+    - Added OAuth2 resource server JWT configuration in `api-gateway.yml`.
+    - Configured gateway routes for all microservices (User, Activity, AI).
+    - Enabled Eureka service discovery with load balancing (`lb://`).
+
+### 🔄 In Progress
+- **Security Hardening**
+    - Refining error handling in `KeyclockUserSyncFilter`.
+    - Planning to add circuit breakers for User Service calls.
+    - Considering role-based access control (RBAC) with Keycloak roles.
+
+### 🧠 Next Steps
+- Fix critical issues:
+    - Missing return statement in `UserService.register()` when user exists.
+    - Replace hardcoded dummy password with secure random generation.
+    - Remove password field from `UserResponse` DTO.
+- Add **Resilience4j circuit breakers** for inter-service communication.
+- Implement comprehensive **security testing** (JWT validation, unauthorized access).
+- Add **Keycloak role mapping** to `UserRole` enum.
+- Begin **Docker containerization** for all microservices including Keycloak.
+- Add observability using **Micrometer / OpenTelemetry** for distributed tracing.
+
+📌 *Next milestone:* Production-ready security with circuit breakers, role-based access, and Docker deployment.
+
+---
+
 ## 🧩 Project Progress Update (as of October 11, 2025)
 
 ### ✅ Completed
@@ -101,7 +157,7 @@ All trademarks and technologies belong to their respective owners.
     - Created new **AI-Service** (Spring Boot + MongoDB + Eureka Client).
     - Configured **RabbitMQ** integration with custom `exchange`, `queue`, and `routingKey`.
     - Implemented `RabbitMqConfig` and `@RabbitListener` to consume activity messages.
-    - Verified successful **end-to-end asynchronous communication**:  
+    - Verified successful **end-to-end asynchronous communication**:
       **User → Activity → RabbitMQ → AI-Service**.
     - Fixed Eureka IP resolution issues using `prefer-ip-address: true`.
     - Confirmed service registration in **Eureka Server** and live message flow in **RabbitMQ UI**.
